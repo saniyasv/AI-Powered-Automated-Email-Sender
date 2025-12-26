@@ -1,0 +1,129 @@
+{
+  "name": "AI-Powered Automated Email Sender",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 21
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -400,
+        -80
+      ],
+      "id": "cf6a739c-3276-4546-93e3-ba5ebb6f6998",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "generate a welcome message",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -192,
+        -80
+      ],
+      "id": "af68bf51-0dee-4132-8f50-6da7dd4d852a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "sendTo": "pavanpavan6167@gmail.com",
+        "subject": "project demo",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        -80
+      ],
+      "id": "ecdde15a-38cb-477d-83d1-4eb777cf4595",
+      "name": "Send a message",
+      "webhookId": "216c304d-72a5-425d-ba92-227bfbfa62bf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "nfsQuQriBZolc9Su",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -336,
+        128
+      ],
+      "id": "2e79a7ee-5336-41d3-aaec-4196a8dc27cb",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "LQzN1gu5QIw1pAcx",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "e9856cf9-64c5-4efe-bd64-385297bd4a05",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2e122d5857992e5bb4502abb5b918eae76a8cd1ac9c3ee056c3eacc76964058a"
+  },
+  "id": "3vlIpiW0GOQnwwcE",
+  "tags": []
+}
